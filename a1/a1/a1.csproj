@@ -187,6 +187,8 @@
     </Compile>
     <Compile Include="Models\VenueAddViewModel.cs" />
     <Compile Include="Models\VenueBaseViewModel.cs" />
+    <Compile Include="Models\VenueEditFormViewModel.cs" />
+    <Compile Include="Models\VenueEditViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

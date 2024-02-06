@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using a1.Models;
 
 // ************************************************************************************
 // WEB524 Project Template V1 == 2231-37358bdc-7b44-4100-8c4e-0ff4381a8cce
@@ -34,7 +35,11 @@ namespace a1.Controllers
                 // Define the mappings below, for example...
                 // cfg.CreateMap<SourceType, DestinationType>();
                 // cfg.CreateMap<Product, ProductBaseViewModel>();
+                cfg.CreateMap<Venue, VenueBaseViewModel>();
 
+                cfg.CreateMap<VenueAddViewModel, Venue>();
+
+                cfg.CreateMap<VenueEditViewModel, Venue>();
             });
 
             mapper = config.CreateMapper();
@@ -56,7 +61,60 @@ namespace a1.Controllers
         // Remember to use the suggested naming convention, for example:
         // ProductGetAll(), ProductGetById(), ProductAdd(), ProductEdit(), and ProductDelete().
 
+        public IEnumerable<VenueBaseViewModel> VenueGetAll()
+        {
+            return mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBaseViewModel>>(ds.Venues.OrderBy(v => v.Company));
+        }
 
+        public VenueBaseViewModel VenueGetById(int id)
+        {
+            // Using the SingleOrDefault method
+            var venue = ds.Venues.SingleOrDefault(v => v.VenueId == id);
 
+            // Return the result, or null if not found
+            return (venue == null) ? null : mapper.Map<Venue, VenueBaseViewModel>(venue);
+        }
+
+        public VenueBaseViewModel VenueAdd(VenueAddViewModel newVenue)
+        {
+            // Add the new item.
+            var addedItem = ds.Venues.Add(mapper.Map<VenueAddViewModel, Venue>(newVenue));
+            ds.SaveChanges();
+
+            // If successful, return the added item (mapped to a view model class).
+            return addedItem == null ? null : mapper.Map<Venue, VenueBaseViewModel>(addedItem);
+        }
+
+        public VenueBaseViewModel VenueEdit(VenueEditViewModel editedVenue)
+        {
+            var venue = ds.Venues.Find(editedVenue.VenueId);
+
+            if (venue == null) 
+            {
+                return null;
+            }
+
+            mapper.Map(editedVenue, venue);
+            ds.SaveChanges();
+
+            // Return the edited object back to the controller
+            var editedViewModel = mapper.Map<VenueBaseViewModel>(venue);
+            return editedViewModel;
+        }
+
+        public bool VenueDelete(int id)
+        {
+            var venue = ds.Venues.Find(id);
+
+            if (venue == null)
+            {
+                return false;
+            }
+
+            ds.Venues.Remove(venue);
+            ds.SaveChanges();
+
+            return true;
+        }
     }
 }
