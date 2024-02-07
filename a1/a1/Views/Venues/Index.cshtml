@@ -1,0 +1,70 @@
+﻿@model IEnumerable<a1.Models.VenueBaseViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Company
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Phone / Fax
+        </th>
+        <th>
+            Email / Website
+        </th>
+        <th>
+            Date Opened
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+                <br/>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+                <br />
+                @Html.DisplayFor(modelItem => item.Website)
+
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => $"{item.OpenDate?.ToString("yyyy-MM-dd")} <br /> {item.YearsOld} <i>years old</i>")*@
+                @*@{
+                    var formattedDate = item.OpenDate != null ? item.OpenDate.Value.ToString("yyyy-MM-dd") : null;
+                }*@
+
+                @Html.DisplayFor(modelItem => item.OpenDate)
+                <br />
+                <i>@Html.DisplayFor(modelItem => item.YearsOld)</i>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.VenueId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.VenueId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.VenueId })
+            </td>
+        </tr>
+    }
+
+</table>
