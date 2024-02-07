@@ -16,5 +16,17 @@ namespace a1.Controllers
         {
             return View(m.VenueGetAll());
         }
+
+        // GET: Venues/Details/5
+        public ActionResult Details(int? id)
+        {
+            // Attempt to get the matching object
+            var obj = m.VenueGetById(id.GetValueOrDefault());
+
+            if (obj == null)
+                return HttpNotFound();
+            else
+                return View(obj);
+        }
     }
 }

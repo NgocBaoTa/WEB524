@@ -50,11 +50,6 @@
 
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => $"{item.OpenDate?.ToString("yyyy-MM-dd")} <br /> {item.YearsOld} <i>years old</i>")*@
-                @*@{
-                    var formattedDate = item.OpenDate != null ? item.OpenDate.Value.ToString("yyyy-MM-dd") : null;
-                }*@
-
                 @Html.DisplayFor(modelItem => item.OpenDate)
                 <br />
                 <i>@Html.DisplayFor(modelItem => item.YearsOld)</i>
