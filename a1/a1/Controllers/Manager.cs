@@ -103,14 +103,15 @@ namespace a1.Controllers
 
         public VenueBaseViewModel VenueEdit(VenueEditViewModel editedVenue)
         {
-            var venue = ds.Venues.SingleOrDefault(v => v.VenueId == editedVenue.VenueId);
+            var venue = ds.Venues.Find(editedVenue.VenueId);
 
             if (venue == null) 
             {
                 return null;
             }
 
-            mapper.Map(editedVenue, venue);
+            ds.Entry(venue).CurrentValues.SetValues(editedVenue);
+            //mapper.Map(editedVenue, venue);
             ds.SaveChanges();
 
             // Return the edited object back to the controller

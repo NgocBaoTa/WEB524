@@ -83,7 +83,7 @@ namespace a1.Controllers
 
         // POST: Venues/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, VenueEditViewModel item)
+        public ActionResult Edit(VenueEditViewModel item)
         {
             if (!ModelState.IsValid)
             {

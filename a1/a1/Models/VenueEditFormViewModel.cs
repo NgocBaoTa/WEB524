@@ -9,10 +9,10 @@ namespace a1.Models
     public class VenueEditBaseViewModel
     {
         [Display(Name = "Venue ID")]
-        public int VenueId { get; }
+        public int VenueId { get; set; }
 
         [Display(Name = "Company Name")]
-        public string Company { get; }
+        public string Company { get; set; }
 
         [Required, StringLength(100)]
         public string Address { get; set; }
