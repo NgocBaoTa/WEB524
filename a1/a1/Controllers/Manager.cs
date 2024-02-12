@@ -40,6 +40,8 @@ namespace a1.Controllers
                 cfg.CreateMap<VenueAddViewModel, Venue>();
 
                 cfg.CreateMap<VenueEditViewModel, Venue>();
+
+                cfg.CreateMap<VenueBaseViewModel, VenueEditFormViewModel>();
             });
 
             mapper = config.CreateMapper();
@@ -77,17 +79,31 @@ namespace a1.Controllers
 
         public VenueBaseViewModel VenueAdd(VenueAddViewModel newVenue)
         {
-            // Add the new item.
-            var addedItem = ds.Venues.Add(mapper.Map<VenueAddViewModel, Venue>(newVenue));
-            ds.SaveChanges();
+            //// Add the new item.
+            //var addedItem = ds.Venues.Add(mapper.Map<VenueAddViewModel, Venue>(newVenue));
+            //ds.SaveChanges();
 
-            // If successful, return the added item (mapped to a view model class).
-            return addedItem == null ? null : mapper.Map<Venue, VenueBaseViewModel>(addedItem);
+            //// If successful, return the added item (mapped to a view model class).
+            //return addedItem == null ? null : mapper.Map<Venue, VenueBaseViewModel>(addedItem);
+
+            try
+            {
+                // Add the new item.
+                var addedItem = ds.Venues.Add(mapper.Map<VenueAddViewModel, Venue>(newVenue));
+                ds.SaveChanges();
+
+                // If successful, return the added item (mapped to a view model class).
+                return addedItem == null ? null : mapper.Map<Venue, VenueBaseViewModel>(addedItem);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public VenueBaseViewModel VenueEdit(VenueEditViewModel editedVenue)
         {
-            var venue = ds.Venues.Find(editedVenue.VenueId);
+            var venue = ds.Venues.SingleOrDefault(v => v.VenueId == editedVenue.VenueId);
 
             if (venue == null) 
             {

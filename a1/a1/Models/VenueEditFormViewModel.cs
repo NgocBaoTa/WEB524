@@ -27,7 +27,7 @@ namespace a1.Models
         public string Country { get; set; }
 
         [Required]
-        [RegularExpression(@"/[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d/", ErrorMessage = "Postal Code must be in the format: LNL NLN, e.g.: M9W 1T6")]
+        [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "Postal Code must be in the format: LNL NLN, e.g.: M9W 1T6")]
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
@@ -47,6 +47,7 @@ namespace a1.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OpenDate { get; set; }
     }
     public class VenueEditFormViewModel : VenueEditBaseViewModel

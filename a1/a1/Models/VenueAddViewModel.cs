@@ -12,35 +12,38 @@ namespace a1.Models
         [StringLength(80)]
         public string Company { get; set; }
 
-        [StringLength(70)]
+        [Required, StringLength(100)]
         public string Address { get; set; }
 
-        [StringLength(40)]
+        [Required, StringLength(15)]
         public string City { get; set; }
 
-        [StringLength(40)]
+        [Required, StringLength(15)]
         public string State { get; set; }
 
-        [StringLength(40)]
+        [Required, StringLength(20)]
         public string Country { get; set; }
 
-        [StringLength(10)]
+        [Required]
+        [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "Postal Code must be in the format: LNL NLN, e.g.: M9W 1T6")]
+        [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
-        [StringLength(24)]
+        [Required, StringLength(12, MinimumLength = 9)]
         public string Phone { get; set; }
 
-        [StringLength(24)]
+        [Required, StringLength(10)]
         public string Fax { get; set; }
 
-        [StringLength(60)]
-        
+        [Required, StringLength(50)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [StringLength(60)]
+        [Required, StringLength(100)]
+        [DataType(DataType.Url)]
         public string Website { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? OpenDate { get; set; }
