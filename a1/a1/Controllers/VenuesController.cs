@@ -105,5 +105,44 @@ namespace a1.Controllers
                 return View();
             }
         }
+
+        // GET: Venues/Delete/5
+        public ActionResult Delete(int id)
+        {
+            // Fetch the existing venue data and map it to VenueEditFormViewModel
+            var existingVenue = m.VenueGetById(id); // Fetch the venue based on the provided id
+
+            if (existingVenue == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var viewModel = m.mapper.Map<VenueBaseViewModel>(existingVenue);
+
+                // Pass the view model to the view
+                return View(viewModel);
+            }
+        }
+
+        // POST: Venues/Delete/5
+        [HttpPost]
+        public ActionResult DeleteConfirm(int id)
+        {
+            try
+            {
+                // Process the input
+                var deletedItem = m.VenueDelete(id);
+
+                if (!deletedItem)
+                    return null;
+                else
+                    return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
