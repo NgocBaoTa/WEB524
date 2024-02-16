@@ -1,8 +1,11 @@
 ﻿using a2.Data;
+using a2.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
+using System.Numerics;
 using System.Web;
 
 // ************************************************************************************
@@ -35,6 +38,10 @@ namespace a2.Controllers
                 // cfg.CreateMap<SourceType, DestinationType>();
                 // cfg.CreateMap<Product, ProductBaseViewModel>();
 
+                cfg.CreateMap<Track, TrackBaseViewModel>();
+
+                // Attention 03 - Will use the mapping above to map the associated Team object
+                cfg.CreateMap<Track, TrackWithDetailViewModel>();
             });
 
             mapper = config.CreateMapper();
@@ -56,7 +63,38 @@ namespace a2.Controllers
         // Remember to use the suggested naming convention, for example:
         // ProductGetAll(), ProductGetById(), ProductAdd(), ProductEdit(), and ProductDelete().
 
+        // ####################################################################################
+        // TRACK 
 
+        public IEnumerable<TrackWithDetailViewModel> TrackGetAll()
+        {
+            return mapper.Map<IEnumerable<Track>, IEnumerable<TrackWithDetailViewModel>>(ds.Tracks.OrderBy(track => track.Name))
+        }
 
+        public IEnumerable<TrackWithDetailViewModel> TrackGetBluesJazz()
+        {
+            return mapper.Map<IEnumerable<Track>, IEnumerable<TrackWithDetailViewModel>>(
+                ds.Tracks.Where(t => t.GenreId == 2 || t.GenreId == 6)
+                .OrderBy(t => t.GenreId).ThenBy(t => t.Name));
+        }
+
+        public IEnumerable<TrackWithDetailViewModel> TrackGetCantrellStaley()
+        {
+            return mapper.Map<IEnumerable<Track>, IEnumerable<TrackWithDetailViewModel>>(
+                ds.Tracks.Where(t => t.Composer.Contains("Jerry Cantrell") && t.Composer.Contains("Layne Staley"))
+                .OrderBy(t => t.Composer).ThenBy(t => t.Name));
+        }
+
+        public IEnumerable<TrackWithDetailViewModel> TrackGetTop50Longest()
+        {
+            return mapper.Map<IEnumerable<Track>, IEnumerable<TrackWithDetailViewModel>>(
+                ds.Tracks.OrderBy(t => t.Milliseconds).Take(50).OrderBy(t => t.Name));
+        }
+
+        public IEnumerable<TrackWithDetailViewModel> TrackGetTop50Smallest()
+        {
+            return mapper.Map<IEnumerable<Track>, IEnumerable<TrackWithDetailViewModel>>(
+                ds.Tracks.OrderBy(t => t.Bytes).Take(50).OrderBy(t => t.Name));
+        }
     }
 }
